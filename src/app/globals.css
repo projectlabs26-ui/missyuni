@@ -85,3 +85,8 @@ body {
 .animate-slide-up {
   animation: slide-up 0.3s ease-out;
 }
+
+/* Safe area for iPhone notch */
+.safe-area-pb {
+  padding-bottom: env(safe-area-inset-bottom);
+}

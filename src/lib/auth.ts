@@ -19,7 +19,15 @@ export async function auth(): Promise<Session | null> {
   if (!sessionCookie) return null;
 
   try {
-    const user = JSON.parse(sessionCookie.value);
+    // Try base64 decode first (new format)
+    let decoded: string;
+    try {
+      decoded = atob(sessionCookie.value);
+    } catch {
+      // Fallback: raw JSON (old format)
+      decoded = sessionCookie.value;
+    }
+    const user = JSON.parse(decoded);
     return { user };
   } catch {
     return null;
@@ -27,12 +35,10 @@ export async function auth(): Promise<Session | null> {
 }
 
 export async function signIn() {
-  // Not used anymore - login is handled by /api/simple-login
   return { error: "Use /api/simple-login instead" };
 }
 
 export async function signOut() {
-  // Handled by client-side
   return { error: "Not implemented" };
 }
 
