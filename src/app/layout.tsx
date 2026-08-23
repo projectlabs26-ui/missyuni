@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     title: "Missyuni",
   },
   icons: {
-    icon: "/logomissyuni.png",
+    icon: "/favicon.png",
     apple: "/logomissyuni.png",
   },
   keywords: [
@@ -52,7 +52,8 @@ export default function RootLayout({
   return (
     <html lang="id" className={`${inter.variable} h-full antialiased`}>
       <head>
-        <link rel="apple-touch-icon" href="/logomissyuni.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/logomissyuni.png" />
       </head>
       <body className="min-h-full flex flex-col bg-white" suppressHydrationWarning>
         {children}
