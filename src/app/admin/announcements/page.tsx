@@ -11,12 +11,20 @@ interface Announcement {
 export default function AdminAnnouncementsPage() {
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({ title: "", content: "", targetRole: "all", isPublished: true });
 
   useEffect(() => {
-    fetch("/api/admin/announcements").then((r) => r.json()).then((data) => {
-      setAnnouncements(data); setLoading(false);
+    fetch("/api/admin/announcements").then((r) => {
+      if (!r.ok) throw new Error("Gagal memuat");
+      return r.json();
+    }).then((data) => {
+      setAnnouncements(Array.isArray(data) ? data : []);
+      setLoading(false);
+    }).catch((err) => {
+      setError(err.message);
+      setLoading(false);
     });
   }, []);
 
@@ -111,6 +119,13 @@ export default function AdminAnnouncementsPage() {
 
       {loading ? (
         <p className="text-text-muted text-center py-8">Memuat...</p>
+      ) : error ? (
+        <div className="card p-8 text-center border-red-200 bg-red-50">
+          <Megaphone className="w-12 h-12 text-red-300 mx-auto mb-3" />
+          <p className="text-red-600 font-medium">Gagal memuat pengumuman</p>
+          <p className="text-red-400 text-sm mt-1">{error}</p>
+          <button onClick={() => window.location.reload()} className="btn-primary mt-4 text-sm py-2 px-4">Coba Lagi</button>
+        </div>
       ) : announcements.length === 0 ? (
         <div className="card p-8 text-center">
           <Megaphone className="w-12 h-12 text-text-muted mx-auto mb-3 opacity-30" />
@@ -122,7 +137,7 @@ export default function AdminAnnouncementsPage() {
             <div key={ann.id} className="card p-5">
               <div className="flex items-start justify-between">
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
+                  <div className="flex items-center gap-2 mb-1 flex-wrap">
                     <h3 className="font-semibold text-text">{ann.title}</h3>
                     <span className={`text-xs px-2 py-0.5 rounded-full ${ann.isPublished ? "bg-green-100 text-green-700" : "bg-gray-100 text-text-muted"}`}>
                       {ann.isPublished ? "Published" : "Draft"}
