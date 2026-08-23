@@ -1,8 +1,7 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
-  const baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:3000";
-  const response = NextResponse.redirect(new URL("/login", baseUrl));
+export async function GET(req: NextRequest) {
+  const response = NextResponse.redirect(new URL("/login", req.nextUrl.origin));
   response.cookies.set("session", "", {
     httpOnly: true,
     secure: false,
