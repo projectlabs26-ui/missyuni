@@ -19,15 +19,7 @@ export async function auth(): Promise<Session | null> {
   if (!sessionCookie) return null;
 
   try {
-    // Try base64 decode first (new format)
-    let decoded: string;
-    try {
-      decoded = atob(sessionCookie.value);
-    } catch {
-      // Fallback: raw JSON (old format)
-      decoded = sessionCookie.value;
-    }
-    const user = JSON.parse(decoded);
+    const user = JSON.parse(sessionCookie.value);
     return { user };
   } catch {
     return null;
