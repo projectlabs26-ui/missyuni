@@ -17,6 +17,7 @@ function LoginForm() {
   const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
   const searchParams = useSearchParams();
   const loginError = searchParams.get("error");
 
@@ -24,9 +25,40 @@ function LoginForm() {
     setMounted(true);
   }, []);
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
     setLoading(true);
-    // Let the form submit normally - browser handles cookie + redirect
+    setError("");
+
+    const form = e.currentTarget;
+    const email = (form.elements.namedItem("email") as HTMLInputElement).value;
+    const password = (form.elements.namedItem("password") as HTMLInputElement).value;
+
+    try {
+      const res = await fetch("/api/simple-login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        setError(data.error || "Email atau password salah");
+        setLoading(false);
+        return;
+      }
+
+      // Set cookie via JavaScript — this ALWAYS works
+      const sessionData = JSON.stringify(data.user);
+      document.cookie = `session=${encodeURIComponent(sessionData)}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`;
+
+      // Navigate after cookie is set
+      window.location.href = data.redirectPath || "/dashboard";
+    } catch {
+      setError("Gagal terhubung ke server");
+      setLoading(false);
+    }
   }
 
   return (
@@ -43,13 +75,13 @@ function LoginForm() {
 
         {/* Card */}
         <div className="bg-white rounded-2xl shadow-md border border-gray-100 p-6">
-          {loginError && (
+          {(loginError || error) && (
             <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-600 text-center">
-              Email atau password salah
+              {error || "Email atau password salah"}
             </div>
           )}
 
-          <form method="POST" action="/api/simple-login" onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit}>
             {/* Email */}
             <div className="mb-4">
               <label className="block text-sm font-medium text-text mb-1">Email</label>

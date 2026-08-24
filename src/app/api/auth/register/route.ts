@@ -52,28 +52,12 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Auto login setelah register
-    const sessionData = {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-    };
-
-    const response = NextResponse.json({
-      redirect: "/dashboard",
-      user: sessionData,
+    // Return session data — client will set cookie
+    return NextResponse.json({
+      success: true,
+      user: { id: user.id, name: user.name, email: user.email, role: user.role },
+      redirectPath: "/dashboard",
     });
-
-    response.cookies.set("session", JSON.stringify(sessionData), {
-      httpOnly: true,
-      secure: false,
-      sameSite: "lax",
-      maxAge: 60 * 60 * 24 * 7,
-      path: "/",
-    });
-
-    return response;
   } catch (err) {
     console.error("Register error:", err);
     return NextResponse.json(

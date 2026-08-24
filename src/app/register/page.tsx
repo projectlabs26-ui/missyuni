@@ -37,9 +37,12 @@ export default function RegisterPage() {
       });
       const data = await res.json();
 
-      if (res.ok) {
-        toast("Pendaftaran berhasil! Silakan login.", "success");
-        router.push("/login");
+      if (res.ok && data.success) {
+        // Set cookie via JavaScript
+        const sessionData = JSON.stringify(data.user);
+        document.cookie = `session=${encodeURIComponent(sessionData)}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`;
+        toast("Pendaftaran berhasil!", "success");
+        window.location.href = data.redirectPath || "/dashboard";
       } else {
         toast(data.error || "Gagal mendaftar", "error");
       }

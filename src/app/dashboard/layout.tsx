@@ -9,9 +9,9 @@ import {
   ShoppingCart,
   Trophy,
   User,
-  LogOut,
   Menu,
 } from "lucide-react";
+import { LogoutButton } from "@/components/ui/logout-button";
 
 const menuItems = [
   { href: "/dashboard", label: "Beranda", icon: Home },
@@ -38,12 +38,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
             <Link href="/" className="text-xs text-text-muted hover:text-primary hidden sm:block">
               Lihat Website
             </Link>
-            <Link
-              href="/api/logout"
-              className="text-xs text-red-500 hover:text-red-700 font-medium"
-            >
-              Keluar
-            </Link>
+            <LogoutButton className="text-xs text-red-500 hover:text-red-700 font-medium px-2 py-1" />
             <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center text-primary font-bold text-sm">
               {session.user.name?.charAt(0) || "S"}
             </div>

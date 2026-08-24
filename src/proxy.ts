@@ -5,5 +5,8 @@ export function proxy(req: NextRequest) {
 }
 
 export const proxyConfig = {
-  matcher: ["/((?!_next|favicon\\.ico|icons|logomissyuni|hero\\.png|qrisyuni).*)"],
+  matcher: [
+    // Only match page routes, not API, not static files
+    "/((?!_next|api|favicon\\.ico|icons|logomissyuni|hero\\.png|qrisyuni|icon-|manifest).*)",
+  ],
 };

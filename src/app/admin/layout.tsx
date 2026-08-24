@@ -7,7 +7,6 @@ import {
   BookOpen,
   Users,
   CreditCard,
-  LogOut,
   TrendingUp,
   Clock,
   Layout,
@@ -18,6 +17,7 @@ import {
   Menu,
   X,
 } from "lucide-react";
+import { LogoutButton } from "@/components/ui/logout-button";
 
 const menuItems = [
   { href: "/admin", label: "Dashboard", icon: Home, color: "text-blue-600" },
@@ -75,14 +75,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
         {/* Footer */}
         <div className="border-t border-gray-100 p-3">
-          <Link
-            href="/api/logout"
-            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-red-500
-              hover:bg-red-50 transition-colors"
-          >
-            <LogOut className="w-5 h-5 shrink-0" />
-            <span>Logout</span>
-          </Link>
+          <LogoutButton className="w-full" showLabel />
         </div>
       </aside>
 
@@ -128,13 +121,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             <span className="text-[10px] font-medium truncate">{item.label}</span>
           </Link>
         ))}
-        <Link
-          href="/api/logout"
-          className="flex flex-col items-center gap-0.5 px-2 py-1 rounded-lg text-red-400 hover:text-red-600 transition-colors"
-        >
-          <LogOut className="w-5 h-5 shrink-0" />
-          <span className="text-[10px] font-medium">Logout</span>
-        </Link>
+        <LogoutButton className="flex flex-col items-center gap-0.5 px-2 py-1 rounded-lg text-red-400 hover:text-red-600" />
       </nav>
     </div>
   );
