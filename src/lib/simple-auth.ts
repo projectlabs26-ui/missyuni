@@ -14,7 +14,14 @@ export async function getSession(): Promise<SessionUser | null> {
   if (!sessionCookie) return null;
 
   try {
-    return JSON.parse(sessionCookie.value);
+    // Try base64 decode first (new format)
+    let value = sessionCookie.value;
+    try {
+      value = Buffer.from(value, "base64").toString("utf-8");
+    } catch {
+      // Not base64, use raw value (old format)
+    }
+    return JSON.parse(value);
   } catch {
     return null;
   }

@@ -34,12 +34,13 @@ export async function POST(req: NextRequest) {
     }
 
     const redirect = user.role === "admin" ? "/admin" : "/dashboard";
-    const session = JSON.stringify({ id: user.id, name: user.name, email: user.email, role: user.role });
+    const sessionData = { id: user.id, name: user.name, email: user.email, role: user.role };
+    const session = Buffer.from(JSON.stringify(sessionData)).toString("base64");
 
     const response = NextResponse.json({ redirect });
     response.cookies.set("session", session, {
       httpOnly: true,
-      secure: false,
+      secure: true,
       sameSite: "lax",
       maxAge: 60 * 60 * 24 * 7,
       path: "/",

@@ -65,9 +65,9 @@ export async function POST(req: NextRequest) {
       user: sessionData,
     });
 
-    response.cookies.set("session", JSON.stringify(sessionData), {
+    response.cookies.set("session", Buffer.from(JSON.stringify(sessionData)).toString("base64"), {
       httpOnly: true,
-      secure: false,
+      secure: true,
       sameSite: "lax",
       maxAge: 60 * 60 * 24 * 7,
       path: "/",

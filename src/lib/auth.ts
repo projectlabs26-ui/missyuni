@@ -19,7 +19,14 @@ export async function auth(): Promise<Session | null> {
   if (!sessionCookie) return null;
 
   try {
-    const user = JSON.parse(sessionCookie.value);
+    // Try base64 decode first (new format)
+    let value = sessionCookie.value;
+    try {
+      value = Buffer.from(value, "base64").toString("utf-8");
+    } catch {
+      // Not base64, use raw value (old format)
+    }
+    const user = JSON.parse(value);
     return { user };
   } catch {
     return null;
