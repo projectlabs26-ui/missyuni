@@ -72,51 +72,70 @@ export default async function CourseDetailPage({
   });
 
   return (
-    <div>
-      <div className="flex items-center justify-between mb-6">
-        <a href="/dashboard" className="text-text-muted hover:text-primary transition-colors">
-          ← Kembali ke Dashboard
-        </a>
-        <span className="text-sm text-text-muted">
-          {completedModules}/{totalModules} Modul • {progress}%
-        </span>
-      </div>
+    <div className="space-y-4 lg:space-y-6">
+      {/* Back link */}
+      <a href="/dashboard" className="inline-flex items-center gap-1 text-sm text-text-muted hover:text-primary transition-colors">
+        ← Kembali ke Dashboard
+      </a>
 
-      <div className="grid lg:grid-cols-3 gap-8">
-          {/* Main Content */}
-          <div className="lg:col-span-2 space-y-8">
-            <div>
-              <h1 className="text-2xl font-bold text-text mb-1">{course.title}</h1>
-              <p className="text-text-muted">{course.description}</p>
-            </div>
+      {/* Course Header */}
+      <div className="card p-4 lg:p-6">
+        <h1 className="text-xl lg:text-2xl font-bold text-text mb-1">{course.title}</h1>
+        <p className="text-sm text-text-muted mb-3">{course.description}</p>
 
-            {/* Course Viewer with module navigation */}
-            <CourseViewer
-              modules={course.modules}
-              moduleProgresses={moduleProgresses}
-              courseId={courseId}
-            />
-
-            {/* Quiz Section */}
-            <QuizSection
-              modules={course.modules as any}
-              quizAttempts={quizAttempts}
-              userId={session.user.id!}
-            />
-
-            {/* Certificate */}
-            <CertificateSection
-              courseId={courseId}
-              courseTitle={course.title}
-              userName={session.user.name ?? ""}
-              certificate={certificate}
-              allModulesCompleted={progress === 100}
-              allQuizzesPassed={allQuizzesPassed}
+        {/* Progress bar */}
+        <div className="flex items-center gap-3">
+          <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-primary rounded-full transition-all"
+              style={{ width: `${progress}%` }}
             />
           </div>
+          <span className="text-xs font-medium text-text-muted whitespace-nowrap">
+            {completedModules}/{totalModules} modul • {progress}%
+          </span>
+        </div>
+      </div>
 
-          {/* Sidebar - Module List */}
-          <div>
+      {/* Mobile: Module list (collapsible via CSS) */}
+      <div className="lg:hidden">
+        <ModuleList
+          modules={course.modules}
+          moduleProgresses={moduleProgresses}
+          enrollmentId={enrollment.id}
+          courseId={courseId}
+        />
+      </div>
+
+      {/* Desktop: 2-column layout */}
+      <div className="lg:grid lg:grid-cols-3 lg:gap-6">
+        {/* Main Content */}
+        <div className="lg:col-span-2 space-y-4 lg:space-y-6">
+          <CourseViewer
+            modules={course.modules}
+            moduleProgresses={moduleProgresses}
+            courseId={courseId}
+          />
+
+          <QuizSection
+            modules={course.modules as any}
+            quizAttempts={quizAttempts}
+            userId={session.user.id!}
+          />
+
+          <CertificateSection
+            courseId={courseId}
+            courseTitle={course.title}
+            userName={session.user.name ?? ""}
+            certificate={certificate}
+            allModulesCompleted={progress === 100}
+            allQuizzesPassed={allQuizzesPassed}
+          />
+        </div>
+
+        {/* Desktop Sidebar */}
+        <div className="hidden lg:block">
+          <div className="sticky top-20">
             <ModuleList
               modules={course.modules}
               moduleProgresses={moduleProgresses}
@@ -125,6 +144,7 @@ export default async function CourseDetailPage({
             />
           </div>
         </div>
+      </div>
     </div>
   );
 }
