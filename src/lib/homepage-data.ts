@@ -35,6 +35,7 @@ export interface HomePageData {
   courses: SalesContent | null;
   testimonials: SalesContent | null;
   cta: SalesContent | null;
+  footer: SalesContent | null;
   testimonialItems: TestimonialData[];
   courseItems: CourseData[];
 }
@@ -51,6 +52,7 @@ export async function getHomePageData(): Promise<HomePageData> {
   const courses = contents?.find((c: SalesContent) => c.section === "courses") || null;
   const testimonials = contents?.find((c: SalesContent) => c.section === "testimonials") || null;
   const cta = contents?.find((c: SalesContent) => c.section === "cta") || null;
+  const footer = contents?.find((c: SalesContent) => c.section === "footer") || null;
 
   // Fetch approved testimonials
   const { data: testimonialItems } = await supabase
@@ -72,6 +74,7 @@ export async function getHomePageData(): Promise<HomePageData> {
     courses,
     testimonials,
     cta,
+    footer,
     testimonialItems: testimonialItems || [],
     courseItems: courseItems || [],
   };

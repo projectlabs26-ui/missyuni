@@ -29,6 +29,7 @@ const SECTIONS = [
   { key: "courses", label: "Katalog Kelas", desc: "Judul dan subjudul section katalog kelas" },
   { key: "testimonials", label: "Section Testimoni", desc: "Judul dan subjudul section testimoni" },
   { key: "cta", label: "Call to Action", desc: "Ajakan daftar dan badge" },
+  { key: "footer", label: "Footer / Kontak", desc: "Deskripsi brand, email, telepon, lokasi" },
 ];
 
 export default function AdminSalesPage() {
@@ -174,56 +175,112 @@ export default function AdminSalesPage() {
                       </div>
 
                       <div className="space-y-3">
-                        <div>
-                          <label className="block text-sm font-medium text-text mb-1">Judul</label>
-                          <input
-                            type="text"
-                            className="input-field"
-                            value={content?.title || ""}
-                            onChange={(e) => updateLocal(section.key, "title", e.target.value)}
-                            placeholder="Judul section"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-text mb-1">Subjudul / Deskripsi</label>
-                          <textarea
-                            className="input-field min-h-[60px]"
-                            value={content?.subtitle || ""}
-                            onChange={(e) => updateLocal(section.key, "subtitle", e.target.value)}
-                            placeholder="Subjudul atau deskripsi"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-text mb-1">
-                            {section.key === "about" ? "Fitur (JSON)" : section.key === "hero" ? "Badge Text" : section.key === "cta" ? "Badge Text" : "Body"}
-                          </label>
-                          {section.key === "about" ? (
-                            <textarea
-                              className="input-field min-h-[120px] font-mono text-xs"
-                              value={content?.body || ""}
-                              onChange={(e) => updateLocal(section.key, "body", e.target.value)}
-                              placeholder='[{"icon":"Target","title":"Judul Fitur","desc":"Deskripsi"},...]'
-                            />
-                          ) : (
-                            <input
-                              type="text"
-                              className="input-field"
-                              value={content?.body || ""}
-                              onChange={(e) => updateLocal(section.key, "body", e.target.value)}
-                              placeholder="Text badge"
-                            />
-                          )}
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-text mb-1">Image URL</label>
-                          <input
-                            type="url"
-                            className="input-field"
-                            value={content?.imageUrl || ""}
-                            onChange={(e) => updateLocal(section.key, "imageUrl", e.target.value)}
-                            placeholder="https://..."
-                          />
-                        </div>
+                        {/* FOOTER: special fields */}
+                        {section.key === "footer" ? (
+                          <>
+                            <div>
+                              <label className="block text-sm font-medium text-text mb-1">Deskripsi Brand</label>
+                              <textarea
+                                className="input-field min-h-[60px]"
+                                value={content?.subtitle || ""}
+                                onChange={(e) => updateLocal(section.key, "subtitle", e.target.value)}
+                                placeholder="Deskripsi singkat tentang website"
+                              />
+                            </div>
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                              <div>
+                                <label className="block text-sm font-medium text-text mb-1">Email</label>
+                                <input type="email" className="input-field" placeholder="email@domain.com"
+                                  value={(() => { try { return JSON.parse(content?.body || "{}").email || ""; } catch { return ""; } })()}
+                                  onChange={(e) => {
+                                    let parsed: any = {};
+                                    try { parsed = JSON.parse(content?.body || "{}"); } catch {}
+                                    parsed.email = e.target.value;
+                                    updateLocal(section.key, "body", JSON.stringify(parsed));
+                                  }}
+                                />
+                              </div>
+                              <div>
+                                <label className="block text-sm font-medium text-text mb-1">Telepon / WhatsApp</label>
+                                <input type="tel" className="input-field" placeholder="0812-3456-7890"
+                                  value={(() => { try { return JSON.parse(content?.body || "{}").phone || ""; } catch { return ""; } })()}
+                                  onChange={(e) => {
+                                    let parsed: any = {};
+                                    try { parsed = JSON.parse(content?.body || "{}"); } catch {}
+                                    parsed.phone = e.target.value;
+                                    updateLocal(section.key, "body", JSON.stringify(parsed));
+                                  }}
+                                />
+                              </div>
+                              <div>
+                                <label className="block text-sm font-medium text-text mb-1">Lokasi</label>
+                                <input type="text" className="input-field" placeholder="Indonesia"
+                                  value={(() => { try { return JSON.parse(content?.body || "{}").location || ""; } catch { return ""; } })()}
+                                  onChange={(e) => {
+                                    let parsed: any = {};
+                                    try { parsed = JSON.parse(content?.body || "{}"); } catch {}
+                                    parsed.location = e.target.value;
+                                    updateLocal(section.key, "body", JSON.stringify(parsed));
+                                  }}
+                                />
+                              </div>
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            {/* DEFAULT: title, subtitle, body, imageUrl */}
+                            <div>
+                              <label className="block text-sm font-medium text-text mb-1">Judul</label>
+                              <input
+                                type="text"
+                                className="input-field"
+                                value={content?.title || ""}
+                                onChange={(e) => updateLocal(section.key, "title", e.target.value)}
+                                placeholder="Judul section"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-text mb-1">Subjudul / Deskripsi</label>
+                              <textarea
+                                className="input-field min-h-[60px]"
+                                value={content?.subtitle || ""}
+                                onChange={(e) => updateLocal(section.key, "subtitle", e.target.value)}
+                                placeholder="Subjudul atau deskripsi"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-text mb-1">
+                                {section.key === "about" ? "Fitur (JSON)" : section.key === "hero" ? "Badge Text" : section.key === "cta" ? "Badge Text" : "Body"}
+                              </label>
+                              {section.key === "about" ? (
+                                <textarea
+                                  className="input-field min-h-[120px] font-mono text-xs"
+                                  value={content?.body || ""}
+                                  onChange={(e) => updateLocal(section.key, "body", e.target.value)}
+                                  placeholder='[{"icon":"Target","title":"Judul Fitur","desc":"Deskripsi"},...]'
+                                />
+                              ) : (
+                                <input
+                                  type="text"
+                                  className="input-field"
+                                  value={content?.body || ""}
+                                  onChange={(e) => updateLocal(section.key, "body", e.target.value)}
+                                  placeholder="Text badge"
+                                />
+                              )}
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-text mb-1">Image URL</label>
+                              <input
+                                type="url"
+                                className="input-field"
+                                value={content?.imageUrl || ""}
+                                onChange={(e) => updateLocal(section.key, "imageUrl", e.target.value)}
+                                placeholder="https://..."
+                              />
+                            </div>
+                          </>
+                        )}
                       </div>
                     </div>
                   );

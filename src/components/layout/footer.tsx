@@ -1,7 +1,25 @@
 import Link from "next/link";
 import { Mail, Phone, MapPin } from "lucide-react";
+import type { SalesContent } from "@/lib/homepage-data";
 
-export function Footer() {
+const defaults = {
+  description: "Platform belajar Bahasa Inggris online bersama Miss Yuni. Materi interaktif, video, kuis, dan sertifikat digital.",
+  email: "missyuni.my.id@gmail.com",
+  phone: "+62 812-3456-7890",
+  location: "Indonesia",
+};
+
+export function Footer({ data }: { data: SalesContent | null }) {
+  const description = data?.subtitle || defaults.description;
+
+  let contact = { email: defaults.email, phone: defaults.phone, location: defaults.location };
+  if (data?.body) {
+    try {
+      const parsed = JSON.parse(data.body);
+      contact = { ...contact, ...parsed };
+    } catch { /* use defaults */ }
+  }
+
   return (
     <footer className="bg-surface-dark text-white mt-auto">
       <div className="container-custom py-12">
@@ -13,8 +31,7 @@ export function Footer() {
               <span>Missyuni</span>
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed">
-              Platform belajar Bahasa Inggris online bersama Miss Yuni. 
-              Materi interaktif, video, kuis, dan sertifikat digital.
+              {description}
             </p>
           </div>
 
@@ -34,13 +51,13 @@ export function Footer() {
             <h4 className="font-semibold mb-4">Kontak</h4>
             <div className="flex flex-col gap-2 text-gray-400 text-sm">
               <span className="flex items-center gap-2">
-                <Mail className="w-4 h-4" /> missyuni.my.id@gmail.com
+                <Mail className="w-4 h-4" /> {contact.email}
               </span>
               <span className="flex items-center gap-2">
-                <Phone className="w-4 h-4" /> +62 812-3456-7890
+                <Phone className="w-4 h-4" /> {contact.phone}
               </span>
               <span className="flex items-center gap-2">
-                <MapPin className="w-4 h-4" /> Indonesia
+                <MapPin className="w-4 h-4" /> {contact.location}
               </span>
             </div>
           </div>

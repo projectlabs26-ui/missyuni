@@ -22,7 +22,7 @@ export default async function HomePage() {
         <TestimonialsSection testimonials={data.testimonialItems} sectionData={data.testimonials} />
         <CTASection data={data.cta} />
       </main>
-      <Footer />
+      <Footer data={data.footer} />
     </>
   );
 }
