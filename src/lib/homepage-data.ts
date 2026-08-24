@@ -32,10 +32,11 @@ export interface CourseData {
 export interface HomePageData {
   hero: SalesContent | null;
   about: SalesContent | null;
-  features: SalesContent | null;
+  courses: SalesContent | null;
+  testimonials: SalesContent | null;
   cta: SalesContent | null;
-  testimonials: TestimonialData[];
-  courses: CourseData[];
+  testimonialItems: TestimonialData[];
+  courseItems: CourseData[];
 }
 
 export async function getHomePageData(): Promise<HomePageData> {
@@ -47,18 +48,19 @@ export async function getHomePageData(): Promise<HomePageData> {
 
   const hero = contents?.find((c: SalesContent) => c.section === "hero") || null;
   const about = contents?.find((c: SalesContent) => c.section === "about") || null;
-  const features = contents?.find((c: SalesContent) => c.section === "features") || null;
+  const courses = contents?.find((c: SalesContent) => c.section === "courses") || null;
+  const testimonials = contents?.find((c: SalesContent) => c.section === "testimonials") || null;
   const cta = contents?.find((c: SalesContent) => c.section === "cta") || null;
 
   // Fetch approved testimonials
-  const { data: testimonials } = await supabase
+  const { data: testimonialItems } = await supabase
     .from("Testimonial")
     .select("*")
     .eq("isApproved", true)
     .order("createdAt", { ascending: false });
 
   // Fetch published courses
-  const { data: courses } = await supabase
+  const { data: courseItems } = await supabase
     .from("Course")
     .select("*")
     .eq("isPublished", true)
@@ -67,9 +69,10 @@ export async function getHomePageData(): Promise<HomePageData> {
   return {
     hero,
     about,
-    features,
+    courses,
+    testimonials,
     cta,
-    testimonials: testimonials || [],
-    courses: courses || [],
+    testimonialItems: testimonialItems || [],
+    courseItems: courseItems || [],
   };
 }

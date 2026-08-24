@@ -1,26 +1,28 @@
 import Link from "next/link";
 import { Clock, Users, Star, BookOpen } from "lucide-react";
 import { formatRupiah } from "@/lib/utils";
-import type { CourseData } from "@/lib/homepage-data";
+import type { SalesContent, CourseData } from "@/lib/homepage-data";
 
-const defaults: CourseData[] = [
+const defaultCourses: CourseData[] = [
   { id: "basic-english", title: "Basic English for Beginners", slug: "basic-english", description: "Mulai dari nol! Pelajari dasar-dasar grammar, vocabulary, dan percakapan sehari-hari.", price: 149000, thumbnailUrl: null, isPublished: true },
   { id: "speaking-mastery", title: "Speaking Mastery", slug: "speaking-mastery", description: "Tingkatkan kemampuan speaking-mu dengan latihan pronunciation, intonasi, dan fluency.", price: 199000, thumbnailUrl: null, isPublished: true },
   { id: "grammar-intensive", title: "Grammar Intensive", slug: "grammar-intensive", description: "Kuasai 16 tenses, conditional sentences, passive voice, dan semua grammar penting.", price: 179000, thumbnailUrl: null, isPublished: true },
 ];
 
-export function CoursesSection({ courses }: { courses: CourseData[] }) {
-  const items = courses.length > 0 ? courses : defaults;
+export function CoursesSection({ courses, sectionData }: { courses: CourseData[]; sectionData: SalesContent | null }) {
+  const items = courses.length > 0 ? courses : defaultCourses;
+  const title = sectionData?.title || "Katalog Kelas";
+  const subtitle = sectionData?.subtitle || "Pilih kelas yang sesuai dengan kebutuhanmu. Semua kelas bisa diakses kapan saja dan di mana saja.";
 
   return (
     <section id="courses" className="py-16 md:py-20 bg-surface">
       <div className="container-custom">
         <div className="text-center max-w-2xl mx-auto mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-text mb-4">
-            Katalog <span className="text-primary">Kelas</span>
+            {title}
           </h2>
           <p className="text-text-muted text-lg">
-            Pilih kelas yang sesuai dengan kebutuhanmu. Semua kelas bisa diakses kapan saja dan di mana saja.
+            {subtitle}
           </p>
         </div>
 

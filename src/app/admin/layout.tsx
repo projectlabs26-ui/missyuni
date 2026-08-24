@@ -7,7 +7,6 @@ import {
   BookOpen,
   Users,
   CreditCard,
-  TrendingUp,
   Clock,
   Layout,
   Megaphone,
@@ -27,7 +26,6 @@ const menuItems = [
   { href: "/admin/events", label: "Events", icon: Calendar, color: "text-pink-600" },
   { href: "/admin/announcements", label: "Broadcast", icon: Megaphone, color: "text-orange-600" },
   { href: "/admin/sales-page", label: "Sales Page", icon: Layout, color: "text-teal-600" },
-  { href: "/api/admin/export", label: "Export CSV", icon: TrendingUp, color: "text-emerald-600" },
 ];
 
 // Bottom nav: only important items for mobile

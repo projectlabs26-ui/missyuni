@@ -18,8 +18,8 @@ export default async function HomePage() {
       <main className="flex-1">
         <HeroSection data={data.hero} />
         <AboutSection data={data.about} />
-        <CoursesSection courses={data.courses} />
-        <TestimonialsSection testimonials={data.testimonials} />
+        <CoursesSection courses={data.courseItems} sectionData={data.courses} />
+        <TestimonialsSection testimonials={data.testimonialItems} sectionData={data.testimonials} />
         <CTASection data={data.cta} />
       </main>
       <Footer />

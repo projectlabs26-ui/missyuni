@@ -26,7 +26,8 @@ interface Testimonial {
 const SECTIONS = [
   { key: "hero", label: "Hero Section", desc: "Judul utama, tagline, badge, dan CTA" },
   { key: "about", label: "Tentang Kami", desc: "Judul, subjudul, dan fitur-fitur unggulan" },
-  { key: "features", label: "Section Testimoni", desc: "Judul dan subjudul section testimoni" },
+  { key: "courses", label: "Katalog Kelas", desc: "Judul dan subjudul section katalog kelas" },
+  { key: "testimonials", label: "Section Testimoni", desc: "Judul dan subjudul section testimoni" },
   { key: "cta", label: "Call to Action", desc: "Ajakan daftar dan badge" },
 ];
 
