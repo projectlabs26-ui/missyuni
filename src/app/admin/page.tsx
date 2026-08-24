@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Users, BookOpen, Clock, DollarSign, CheckCircle } from "lucide-react";
