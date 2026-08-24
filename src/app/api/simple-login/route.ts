@@ -4,9 +4,23 @@ import bcrypt from "bcryptjs";
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, password } = await req.json();
+    // Support both JSON and form-urlencoded
+    let email: string, password: string;
+    const contentType = req.headers.get("content-type") || "";
+
+    if (contentType.includes("application/json")) {
+      const body = await req.json();
+      email = body.email;
+      password = body.password;
+    } else {
+      // form-urlencoded or multipart
+      const formData = await req.formData();
+      email = formData.get("email") as string;
+      password = formData.get("password") as string;
+    }
+
     if (!email || !password) {
-      return NextResponse.json({ error: "Email dan password wajib diisi" }, { status: 400 });
+      return NextResponse.redirect(new URL("/login?error=1", req.nextUrl.origin));
     }
 
     const { data: user, error } = await supabase
@@ -16,7 +30,7 @@ export async function POST(req: NextRequest) {
       .single();
 
     if (error || !user) {
-      return NextResponse.json({ error: "Email atau password salah" }, { status: 401 });
+      return NextResponse.redirect(new URL("/login?error=1", req.nextUrl.origin));
     }
 
     const valid = user.password.startsWith("$2")
@@ -24,7 +38,7 @@ export async function POST(req: NextRequest) {
       : password === user.password;
 
     if (!valid) {
-      return NextResponse.json({ error: "Email atau password salah" }, { status: 401 });
+      return NextResponse.redirect(new URL("/login?error=1", req.nextUrl.origin));
     }
 
     // Upgrade plain text password to hash
@@ -33,10 +47,10 @@ export async function POST(req: NextRequest) {
       await supabase.from("User").update({ password: hashed }).eq("id", user.id);
     }
 
-    const redirect = user.role === "admin" ? "/admin" : "/dashboard";
+    const redirectPath = user.role === "admin" ? "/admin" : "/dashboard";
     const session = JSON.stringify({ id: user.id, name: user.name, email: user.email, role: user.role });
 
-    const response = NextResponse.json({ redirect });
+    const response = NextResponse.redirect(new URL(redirectPath, req.nextUrl.origin));
     response.cookies.set("session", session, {
       httpOnly: true,
       secure: false,
@@ -47,6 +61,6 @@ export async function POST(req: NextRequest) {
     return response;
   } catch (err) {
     console.error("Login error:", err);
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
+    return NextResponse.redirect(new URL("/login?error=1", req.nextUrl.origin));
   }
 }

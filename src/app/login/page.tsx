@@ -3,47 +3,22 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Eye, EyeOff } from "lucide-react";
-import { toast } from "@/components/ui/toaster";
+import { useSearchParams } from "next/navigation";
 
 export default function LoginPage() {
   const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const searchParams = useSearchParams();
+  const loginError = searchParams.get("error");
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    e.stopPropagation();
-    if (loading || !mounted) return;
+  function handleSubmit(e: React.FormEvent) {
     setLoading(true);
-
-    try {
-      const res = await fetch("/api/simple-login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await res.json();
-
-      if (res.ok && data.redirect) {
-        toast("Berhasil masuk!", "success");
-        window.location.replace(data.redirect);
-        return;
-      }
-
-      toast(data.error || "Email atau password salah", "error");
-    } catch (err) {
-      console.error("Login fetch error:", err);
-      toast("Gagal masuk. Coba lagi.", "error");
-    } finally {
-      setLoading(false);
-    }
+    // Let the form submit normally - browser handles cookie + redirect
   }
 
   return (
@@ -60,27 +35,24 @@ export default function LoginPage() {
 
         {/* Card */}
         <div className="bg-white rounded-2xl shadow-md border border-gray-100 p-6">
-          {/* Fake form for non-JS fallback */}
-          {!mounted && (
-            <form method="POST" action="/api/simple-login">
-              <input type="hidden" name="email" value="" />
-              <input type="hidden" name="password" value="" />
-            </form>
+          {loginError && (
+            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-600 text-center">
+              Email atau password salah
+            </div>
           )}
 
-          <form onSubmit={handleSubmit}>
+          <form method="POST" action="/api/simple-login" onSubmit={handleSubmit}>
             {/* Email */}
             <div className="mb-4">
               <label className="block text-sm font-medium text-text mb-1">Email</label>
               <input
                 type="email"
+                name="email"
                 required
                 placeholder="nama@email.com"
                 className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
                 autoComplete="email"
                 inputMode="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
 
@@ -90,12 +62,11 @@ export default function LoginPage() {
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
+                  name="password"
                   required
                   placeholder="Masukkan password"
                   className="w-full px-4 py-3 pr-12 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
                   autoComplete="current-password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
                 />
                 <button
                   type="button"
