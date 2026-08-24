@@ -28,13 +28,15 @@ const menuItems = [
   { href: "/admin/sales-page", label: "Sales Page", icon: Layout, color: "text-teal-600" },
 ];
 
-// Bottom nav: only important items for mobile
+// Bottom nav: all items for mobile
 const bottomNavItems = [
   { href: "/admin", label: "Home", icon: Home },
   { href: "/admin/courses", label: "Kelas", icon: BookOpen },
-  { href: "/admin/transactions", label: "Transaksi", icon: CreditCard },
   { href: "/admin/students", label: "Siswa", icon: Users },
+  { href: "/admin/transactions", label: "Transaksi", icon: CreditCard },
+  { href: "/admin/events", label: "Events", icon: Calendar },
   { href: "/admin/announcements", label: "Broadcast", icon: Megaphone },
+  { href: "/admin/sales-page", label: "Sales Page", icon: Layout },
 ];
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -107,19 +109,21 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         </main>
       </div>
 
-      {/* Mobile Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex items-center justify-around px-2 py-1.5 z-50 lg:hidden safe-area-pb">
-        {bottomNavItems.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className="flex flex-col items-center gap-0.5 px-2 py-1 rounded-lg text-text-muted hover:text-primary transition-colors min-w-0"
-          >
-            <item.icon className="w-5 h-5 shrink-0" />
-            <span className="text-[10px] font-medium truncate">{item.label}</span>
-          </Link>
-        ))}
-        <LogoutButton className="flex flex-col items-center gap-0.5 px-2 py-1 rounded-lg text-red-400 hover:text-red-600" />
+      {/* Mobile Bottom Navigation - scrollable */}
+      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50 lg:hidden safe-area-pb">
+        <div className="flex items-center overflow-x-auto no-scrollbar px-1 py-1.5 gap-0.5">
+          {bottomNavItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="flex flex-col items-center gap-0.5 px-2.5 py-1.5 rounded-lg text-text-muted hover:text-primary transition-colors shrink-0 min-w-0"
+            >
+              <item.icon className="w-5 h-5 shrink-0" />
+              <span className="text-[10px] font-medium whitespace-nowrap">{item.label}</span>
+            </Link>
+          ))}
+          <LogoutButton className="flex flex-col items-center gap-0.5 px-2.5 py-1.5 rounded-lg text-red-400 hover:text-red-600 shrink-0" />
+        </div>
       </nav>
     </div>
   );
