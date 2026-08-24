@@ -1,12 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export function proxy(req: NextRequest) {
+export function proxy(_req: NextRequest) {
+  // No-op: pass all requests through directly
   return NextResponse.next();
 }
 
 export const proxyConfig = {
-  matcher: [
-    // Only match page routes, not API, not static files
-    "/((?!_next|api|favicon\\.ico|icons|logomissyuni|hero\\.png|qrisyuni|icon-|manifest).*)",
-  ],
+  matcher: [], // Empty = proxy never runs
 };
