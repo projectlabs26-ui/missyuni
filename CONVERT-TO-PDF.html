@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konversi ke PDF</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .section h2 {
+            color: #495057;
+            margin-top: 0;
+        }
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            margin: 10px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        .instructions {
+            background: #e7f3ff;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+        .step {
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        code {
+            background: #f1f3f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', monospace;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📄 Konversi Panduan ke PDF</h1>
+        
+        <div class="instructions">
+            <strong>💡 Cara Menggunakan:</strong>
+            <p>Buka file panduan (PANDUAN-ADMIN.md atau PANDUAN-SISWA.md) dengan salah satu cara di bawah, lalu simpan sebagai PDF.</p>
+        </div>
+
+        <div class="section">
+            <h2>🎯 Cara 1: Online Converter (Paling Mudah)</h2>
+            
+            <div class="step">
+                <span class="step-number">1</span>
+                Buka browser, kunjungi salah satu website ini:
+                <ul>
+                    <li><a href="https://www.markdowntopdf.com" target="_blank">Markdown to PDF</a></li>
+                    <li><a href="https://md2pdf.netlify.app" target="_blank">MD to PDF</a></li>
+                    <li><a href="https://pandoc.org/try" target="_blank">Pandoc Online</a></li>
+                </ul>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">2</span>
+                Buka file panduan dengan Notepad/Text Editor, lalu copy semua isi file.
+            </div>
+            
+            <div class="step">
+                <span class="step-number">3</span>
+                Paste ke website converter tadi.
+            </div>
+            
+            <div class="step">
+                <span class="step-number">4</span>
+                Klik tombol "Convert" atau "Download PDF".
+            </div>
+            
+            <div class="step">
+                <span class="step-number">5</span>
+                File PDF akan terdownload. Selesai! 🎉
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🎯 Cara 2: Google Docs</h2>
+            
+            <div class="step">
+                <span class="step-number">1</span>
+                Buka <a href="https://docs.google.com" target="_blank">Google Docs</a>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">2</span>
+                Buat dokumen baru.
+            </div>
+            
+            <div class="step">
+                <span class="step-number">3</span>
+                Copy isi file panduan (dari Notepad), paste ke Google Docs.
+            </div>
+            
+            <div class="step">
+                <span class="step-number">4</span>
+                Rapikan format jika perlu (judul, heading, bullet point).
+            </div>
+            
+            <div class="step">
+                <span class="step-number">5</span>
+                Klik <strong>File → Download → PDF Document (.pdf)</strong>.
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🎯 Cara 3: Microsoft Word</h2>
+            
+            <div class="step">
+                <span class="step-number">1</span>
+                Buka Microsoft Word.
+            </div>
+            
+            <div class="step">
+                <span class="step-number">2</span>
+                Copy isi file panduan (dari Notepad), paste ke Word.
+            </div>
+            
+            <div class="step">
+                <span class="step-number">3</span>
+                Rapikan format jika perlu.
+            </div>
+            
+            <div class="step">
+                <span class="step-number">4</span>
+                Klik <strong>File → Save As → Pilih PDF</strong>.
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🎯 Cara 4: Browser Print (Paling Cepat)</h2>
+            
+            <div class="step">
+                <span class="step-number">1</span>
+                Buka file panduan dengan <strong>VS Code</strong> atau text editor apapun.
+            </div>
+            
+            <div class="step">
+                <span class="step-number">2</span>
+                Klik <strong>File → Print</strong> atau tekan <code>Ctrl+P</code>.
+            </div>
+            
+            <div class="step">
+                <span class="step-number">3</span>
+                Pilih printer <strong>"Microsoft Print to PDF"</strong> atau <strong>"Save as PDF"</strong>.
+            </div>
+            
+            <div class="step">
+                <span class="step-number">4</span>
+                Klik <strong>Print</strong> atau <strong>Save</strong>.
+            </div>
+            
+            <div class="step">
+                <span class="step-number">5</span>
+                Pilih lokasi penyimpanan, beri nama file, klik <strong>Save</strong>. Selesai! 🎉
+            </div>
+        </div>
+
+        <div class="highlight">
+            <strong>💡 Tips:</strong>
+            <ul>
+                <li>Gunakan <strong>Cara 1 (Online Converter)</strong> untuk hasil terbaik dengan format rapi</li>
+                <li>Gunakan <strong>Cara 4 (Browser Print)</strong> untuk cara tercepat</li>
+                <li>Pastikan semua gambar/icon sudah muncul sebelum convert</li>
+            </ul>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="PANDUAN-ADMIN.md" class="btn btn-primary" target="_blank">📖 Buka Panduan Admin</a>
+            <a href="PANDUAN-SISWA.md" class="btn btn-secondary" target="_blank">📖 Buka Panduan Siswa</a>
+        </div>
+    </div>
+</body>
+</html>
